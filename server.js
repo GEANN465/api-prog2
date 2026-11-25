@@ -1,13 +1,12 @@
 const express = require('express');
 const app = express();
-const produtoRoutes = require('./src/routes/produtoRoutes');
+const usuarioRoute = require('./src/routes/usuarioRoute');
 
 app.use(express.json());
 
-// Utilizando as rotas modularizadas
-app.use('/', produtoRoutes);
+// Rota base para os usuários
+app.use('/usuarios', usuarioRoute);
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
 });
