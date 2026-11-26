@@ -1,32 +1,25 @@
-let usuarios = [
-  { id: 1, nome: "Ana Silva", preco: 0 },
-  { id: 2, nome: "Carlos Souza", preco: 0 }
-];
+const repository = require('../repositories/usuarioRepository');
 
-const listar = () => usuarios;
+const listar = () => repository.obterTodos();
 
-const buscarPorId = (id) => usuarios.find(u => u.id == id);
+const buscarPorId = (id) => repository.obterPorId(id);
 
 const atualizarTotal = (id, nome, preco) => {
-  const index = usuarios.findIndex(u => u.id == id);
-  if (index === -1) return null;
-  usuarios[index] = { id: Number(id), nome, preco };
-  return usuarios[index];
+  return repository.atualizar(id, { nome, preco });
 };
 
 const atualizarParcial = (id, dados) => {
-  const usuario = usuarios.find(u => u.id == id);
+  const usuario = repository.obterPorId(id);
   if (!usuario) return null;
-  if (dados.nome !== undefined) usuario.nome = dados.nome;
-  if (dados.preco !== undefined) usuario.preco = dados.preco;
-  return usuario;
+  
+  const nomeAtualizado = dados.nome !== undefined ? dados.nome : usuario.nome;
+  const precoAtualizado = dados.preco !== undefined ? dados.preco : usuario.preco;
+  
+  return repository.atualizar(id, { nome: nomeAtualizado, preco: precoAtualizado });
 };
 
 const deletar = (id) => {
-  const index = usuarios.findIndex(u => u.id == id);
-  if (index === -1) return false;
-  usuarios.splice(index, 1);
-  return true;
+  return repository.deletar(id);
 };
 
 module.exports = {
